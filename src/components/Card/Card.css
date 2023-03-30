@@ -1,0 +1,25 @@
+#card {
+    padding: 20px;
+    margin:20px;
+    border: 1px solid rgb(13, 120, 191);
+    background-color:rgb(255, 250, 239);
+}
+
+p {
+    /* position: relative;
+    bottom: 2rem; */
+    margin: 10px;
+}
+
+.favButton {
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+}
+
+#closeButton {
+    background-color: rgba(0, 0, 0, 0);
+    border: 3px;
+    /* display:flex; */
+    /* justify-content: right; */
+}
