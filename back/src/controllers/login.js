@@ -1,10 +1,30 @@
-const arr = require('../utils/users');
+const { User } = require('../DB_connection');
 
-const login = (req, res) => {
-    const { email, password } = req.query;
-    if(email === arr[0].email && password === arr[0].password)
-        res.status(200).json({access: true});
-    else res.status(200).json({access: false});
+const login = async (email, password) => {
+    if (email && password) {
+        const user = await User.findOne({
+            where: { email: email }
+        });
+        if (user) {
+            if (password === user.password) {
+                return { access: true }
+            } else {
+                const error = new Error('Contraseña incorrecta');
+                error.status = 403;
+                throw error
+            }
+
+        } else {
+            const error = new Error('Usuario no encontrado');
+            error.status = 404;
+            throw error
+        }
+
+    } else {
+        const error = new Error('Faltan Datos');
+        error.status = 400;
+        throw error
+    };
 };
 
 module.exports = login;

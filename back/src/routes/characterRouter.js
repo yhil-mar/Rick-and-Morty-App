@@ -1,8 +1,16 @@
-const getCharByID = require('../controllers/getCharById');
+const getCharById = require('../controllers/getCharById');
 const { Router } = require('express');
 
-const characterRouter = Router();
+const router = Router();
 
-characterRouter.get('/:id', getCharByID);
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const NewCharacter = await getCharById(id);
+        res.status(200).json(NewCharacter);
+    } catch (error) {
+        res.status(error.status).json({ error: error.message });
+    };
+});
 
-module.exports = characterRouter;
+module.exports = router;

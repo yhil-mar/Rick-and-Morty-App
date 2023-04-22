@@ -1,13 +1,11 @@
 const { Router } = require('express');
 const favRouter = require('./favRouter');
+const userRouter = require('./userRouter');
 const characterRouter = require('./characterRouter');
-
-const login = require('../controllers/login');
 
 const mainRouter = Router();
 
-mainRouter.get('/login', login);
-
+mainRouter.use('/login', userRouter);
 mainRouter.use('/character', characterRouter);
 mainRouter.use('/fav', favRouter);
 
