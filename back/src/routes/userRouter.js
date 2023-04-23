@@ -21,7 +21,7 @@ userRouter.get('/', async (req, res) => {
         const access = await login(email, password);
         res.status(200).json(access);
     } catch (error) {
-        res.status(error.status).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 

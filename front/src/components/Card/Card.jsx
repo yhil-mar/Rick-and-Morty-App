@@ -4,13 +4,13 @@ import { Link, useLocation } from "react-router-dom";
 import { addFav, removeFav } from "../../redux/actions";
 import './Card.css';
 
-function Card({ id, name, species, gender, image, onClose, addFav, removeFav, allCharacters }) {
+function Card({ id, name, species, gender, image, status, origin, onClose, addFav, removeFav, allCharacters }) {
    const [isFav, setIsFav] = useState(false);
    const { pathname } = useLocation();
 
    useEffect(() => {
-      allCharacters.forEach((fav) => {
-         if (fav.id === id) {
+      allCharacters.forEach(fav => {
+         if (fav.id === Number(id)) {
             setIsFav(true);
          }
       });
@@ -22,8 +22,13 @@ function Card({ id, name, species, gender, image, onClose, addFav, removeFav, al
          removeFav(id)  // cómo ya se mejoró la función "removeFav" ahora solamente se la debe ejecutar pasandole el id
       } else {
          setIsFav(true);
-         addFav({ id, name, species, gender, image })    // esta igual, pero pasandole un objeto con lo que se necesitará del personaje
+         addFav({ id, name, species, gender, image, status, origin })    // esta igual, pero pasandole un objeto con lo que se necesitará del personaje
       }
+   };
+
+   const closeHandler = () => {
+      onClose(id)
+      if(isFav) removeFav(id);
    };
 
    return (
@@ -35,17 +40,13 @@ function Card({ id, name, species, gender, image, onClose, addFav, removeFav, al
                <button className="favButton" onClick={handleFavorite}>🤍</button>
             )
          }
-         {pathname === '/home' && <button id="closeButton" onClick={() => {
-            onClose(id)
-            removeFav(id)
-         }
-         }>❌</button>}
+         {pathname === '/home' && <button id="closeButton" onClick={closeHandler}>❌</button>}
          <Link to={`/detail/${id}`}>
             <p><b>{name}</b></p>
          </Link>
          <p>{species}</p>
          <p>{gender}</p>
-         <img src={image} alt='' height='250rem'/>
+         <img src={image} alt='' height='250rem' />
       </div>
    );
 }

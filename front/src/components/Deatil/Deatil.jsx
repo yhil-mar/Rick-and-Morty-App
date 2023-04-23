@@ -8,7 +8,7 @@ export default function Deatil() {
     const { id } = useParams();     // useParams es un objeto que se crea al pasar parámetros en el path de /detail con los dos puntos ":", se hace destructuring ya que le dimos el nombre "id" al parámetro
 
     useEffect(() => {
-        axios(`http://localhost:3001/rickandmorty/character/${id}`).then(({ data }) => {
+        axios.get(`http://localhost:3001/rickandmorty/character/detail/${id}`).then(({ data }) => {
             if (data.name) {
                 setCharacter(data);
             } else {

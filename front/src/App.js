@@ -15,20 +15,20 @@ function App() {
    const location = useLocation();
    const navigate = useNavigate();
 
-   const EMAIL = 'minicatz@gmail.com';
-   const PASSWORD = 'm1bebef1u';
-
    const onSearch = (id) => {
-      if (id === '') alert('¡Debes llenar este campo!');
-      else if (id > 826 || !Number(id)) alert('¡No hay personajes con este ID!');
-      else axios(`http://localhost:3001/rickandmorty/character/${id}`).then(({ data }) => {
-         if (data.name && !characters.find(char => char.id === data.id)) {
+      if (id === '') return alert('¡Debes llenar este campo!');
+      if (id > 826 || !Number(id)) return alert('¡No hay personajes con este ID!');
+      if (characters.find(char => char.id === id)) return alert('¡Personaje repetido!')
+
+      axios.get(`http://localhost:3001/rickandmorty/character/${id}`).then(({ data }) => {
+         if (data.name) {
             setCharacters((oldChars) => [...oldChars, data]);
          } else {
-            alert('¡Personaje repetido!');
+            alert('Algo salió mal');
          }
       });
    };
+
    const onClose = (id) => {
       setCharacters(characters.filter(character => character.id !== id));
    };
@@ -44,9 +44,11 @@ function App() {
       const { email, password } = userData;
       const URL = 'http://localhost:3001/rickandmorty/login/';
       axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
-         const { access } = data;
-         setAccess(data);
-         access && navigate('/home');
+         const { access, message } = data;
+         if (access) {
+            setAccess(data);
+            access && navigate('/home');
+         } else alert(message);
       });
    };
 

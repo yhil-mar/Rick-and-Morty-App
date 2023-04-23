@@ -13,4 +13,14 @@ router.get('/:id', async (req, res) => {
     };
 });
 
+router.get('/detail/:id', async (req, res) => {
+    const {id} = req.params;
+    try {
+        const detailedCharacter = await getCharById(id);
+        res.status(200).json(detailedCharacter);
+    } catch (error) {
+        res.status(error.status).json({ error: error.message });
+    };
+})
+
 module.exports = router;
